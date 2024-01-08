@@ -1,2 +1,3 @@
 # Offline-SLAM
-Position estimation and map matching
+
+SLAM - Simultanous Localization and Mapping
