@@ -75,5 +75,5 @@ ROS node for checking connection to LiDAR was implemented. Listeners are initial
 
 ![ScreenShot](/screenshots/rosbridge.png)
 
-The result is seen in GUI. It allows to detect the connection failure in real-time.  
+The result is seen in GUI. It allows to detect the connection failure immediately.  
 ![ScreenShot](/screenshots/gui-with-ros.png)
