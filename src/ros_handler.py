@@ -1,5 +1,6 @@
 import multiprocessing as mp
 
+
 __author__ = "Joanna Koszyk"
 __contact__ = "jkoszyk@agh.edu.pl"
 __copyright__ = "Copyright 2023, AGH"
@@ -14,14 +15,7 @@ are acquired.'''
 class RosHandler(mp.Process):
     def __init__(self):
         super().__init__()
-        self.roslibpy_import = False
-        try:
-            # import roslibpy library
-            import roslibpy
-            self.roslibpy_import = True
-        except ImportError:
-            print("roslibpy library is missing")
-            return
+
         # ROS master connection data
         self.host = '192.168.0.100'
         self.port = 11312
@@ -32,9 +26,20 @@ class RosHandler(mp.Process):
         self.lidar_status = message['data']
 
     def run(self, run_event, ros_connection_status, lidar_status):
+
+        self.roslibpy_import = False
+        try:
+            # import roslibpy library
+            import roslibpy
+            self.roslibpy_import = True
+        except ImportError:
+            print("roslibpy library is missing")
+            return
+
         if self.roslibpy_import:
             print("trying to connect to ROS")
             ros_listeners_initialized = False
+
             try:
                 # connect to ROS
                 ros_client = roslibpy.Ros(host=self.host, port=self.port)
