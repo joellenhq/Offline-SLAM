@@ -18,6 +18,9 @@ __email__ = "jkoszyk@agh.edu.pl"
 __version__ = "1.0.0"
 
 
+'''This file contains the process where calculations are made. Map alignment and pose estimation are implemented.'''
+
+
 class Slam(mp.Process):
 
     def __init__(self):
@@ -50,11 +53,11 @@ class Slam(mp.Process):
         # the first point cloud will be set as the reference point cloud
         self.reference_pcd = np.empty((20, 4), dtype='float32')
 
-        # set constraints
-        self.constraint_x = 0.5  # m
-        self.constraint_y = 0.5  # m
-        self.constraint_z = 0.2  # m
-        self.constraint_yaw = 90  # degrees
+        # # set constraints
+        # self.constraint_x = 0.5  # m
+        # self.constraint_y = 0.5  # m
+        # self.constraint_z = 0.2  # m
+        # self.constraint_yaw = 90  # degrees
 
         # acceptable error for translation (for ICP algorithm)
         self.error = 0.05
@@ -63,7 +66,7 @@ class Slam(mp.Process):
         self.max_iterations = 70
 
     def run(self, run_event, calculation_trigger, rotation_option, translation_option, calculations_progress,
-            data_path, pose,x_limit, y_limit, z_limit):
+            data_path, pose, icp_error, icp_max_iter):
         while run_event.is_set():
             # check if calculations were triggered in GUI
             calculations = calculation_trigger.value
@@ -75,10 +78,13 @@ class Slam(mp.Process):
                 rotate = rotation_option.value
                 translate = translation_option.value
 
-                # freeze options of limits from GUI
-                self.constraint_x = x_limit.value
-                self.constraint_y = y_limit.value
-                self.constraint_z = z_limit.value
+                # acceptable error for translation (for ICP algorithm)
+                self.error = icp_error.value
+                # convert from mm to meters
+                self.error = self.error/1000
+
+                # maximal number of tries to reach the ICP correspondence of two point clouds
+                self.max_iterations = icp_max_iter.value
 
                 # print(data_path)
                 self.input_data_path = data_path['input']
@@ -350,7 +356,7 @@ class Slam(mp.Process):
 
     def find_closest_point(self, point):
         # calculate distance from a point to each point in reference point cloud
-        distance = (self.reference_pcd[:, 0]-point[0])*(self.reference_pcd[:, 0]-point[0]) + (self.reference_pcd[:, 1]-point[1])*(self.reference_pcd[:, 1]-point[1])
+        distance = (self.reference_pcd[:, 0]-point[0])*(self.reference_pcd[:, 0]-point[0]) + (self.reference_pcd[:, 1] - point[1])*(self.reference_pcd[:, 1]-point[1])
         # get index of the closest point
         ind = np.argmin(distance)
         # find coordinates of the closest point

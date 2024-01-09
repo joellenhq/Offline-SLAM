@@ -16,6 +16,13 @@ __email__ = "jkoszyk@agh.edu.pl"
 __version__ = "1.0.0"
 
 
+'''
+This file contains GUI created with the use of PyQt library. It creates widgets to link the point cloud input and 
+output directories. Additionally, 3D and 2D view is available. The application allows to start the calculations 
+with rotation and translation. After calculations are done, pose estimation can be seen at the Localization panel. 
+'''
+
+
 class Gui(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(Gui, self).__init__(parent)
@@ -106,27 +113,23 @@ class Gui(QtWidgets.QMainWindow):
         self.mappingLabel.setFont(font2)
         # create button to run calculations
         self.mappingBtn = QtGui.QPushButton()
-        # create limits of robot movement for ICP method
-        self.x_limit_label = QtGui.QLabel()
-        self.x_limit_spinbox = QtGui.QSpinBox()
-        self.x_limit_spinbox.setValue(0)
-        self.x_limit_spinbox.setMaximum(2000)
-        self.x_limit_spinbox.setMinimum(0)
-        self.x_limit_spinbox.setSingleStep(20)
 
-        self.y_limit_label = QtGui.QLabel()
-        self.y_limit_spinbox = QtGui.QSpinBox()
-        self.y_limit_spinbox.setValue(0)
-        self.y_limit_spinbox.setMaximum(2000)
-        self.y_limit_spinbox.setMinimum(0)
-        self.y_limit_spinbox.setSingleStep(20)
+        # create controls to set the settings for ICP method
+        # acceptable error in mam alignment
+        self.icp_error_label = QtGui.QLabel()
+        self.icp_error_spinbox = QtGui.QSpinBox()
+        self.icp_error_spinbox.setMaximum(2000)
+        self.icp_error_spinbox.setMinimum(0)
+        self.icp_error_spinbox.setSingleStep(10)
+        self.icp_error_spinbox.setValue(50)
 
-        self.z_limit_label = QtGui.QLabel()
-        self.z_limit_spinbox = QtGui.QSpinBox()
-        self.z_limit_spinbox.setValue(0)
-        self.z_limit_spinbox.setMaximum(2000)
-        self.z_limit_spinbox.setMinimum(0)
-        self.z_limit_spinbox.setSingleStep(20)
+        # maximum number of iterations
+        self.icp_max_iter_label = QtGui.QLabel()
+        self.icp_max_iter_spinbox = QtGui.QSpinBox()
+        self.icp_max_iter_spinbox.setMaximum(2000)
+        self.icp_max_iter_spinbox.setMinimum(0)
+        self.icp_max_iter_spinbox.setSingleStep(20)
+        self.icp_max_iter_spinbox.setValue(70)
 
         self.rotateCheckBx = QtGui.QCheckBox("Rotation")
         self.rotateCheckBx.setCheckable(True)
@@ -148,12 +151,10 @@ class Gui(QtWidgets.QMainWindow):
         self.yaw_pose_value = QtGui.QLabel()
 
         self.vbox3.addWidget(self.mappingLabel)
-        self.vbox3.addWidget(self.x_limit_label)
-        self.vbox3.addWidget(self.x_limit_spinbox)
-        self.vbox3.addWidget(self.y_limit_label)
-        self.vbox3.addWidget(self.y_limit_spinbox)
-        self.vbox3.addWidget(self.z_limit_label)
-        self.vbox3.addWidget(self.z_limit_spinbox)
+        self.vbox3.addWidget(self.icp_error_label)
+        self.vbox3.addWidget(self.icp_error_spinbox)
+        self.vbox3.addWidget(self.icp_max_iter_label)
+        self.vbox3.addWidget(self.icp_max_iter_spinbox)
         self.vbox3.addWidget(self.rotateCheckBx)
         self.vbox3.addWidget(self.translationCheckBx)
         self.vbox3.addWidget(self.mappingBtn)
@@ -272,9 +273,8 @@ class Gui(QtWidgets.QMainWindow):
         self.pathLabel1.setText(_translate("MainWindow", "Data:"))
         self.pathLabel2.setText(_translate("MainWindow", "Output folder:"))
         self.mappingLabel.setText(_translate("MainWindow", "Mapping"))
-        self.x_limit_label.setText(_translate("MainWindow", "X limit: [mm]"))
-        self.y_limit_label.setText(_translate("MainWindow", "Y limit: [mm]"))
-        self.z_limit_label.setText(_translate("MainWindow", "Z limit: [mm]"))
+        self.icp_error_label.setText(_translate("MainWindow", "ICP error: [mm]"))
+        self.icp_max_iter_label.setText(_translate("MainWindow", "ICP error: [mm]"))
         self.mappingBtn.setText(_translate("MainWindow", "Calculate"))
         self.localizationLabel.setText(_translate("MainWindow", "Localization"))
         self.poseLabel.setText(_translate("MainWindow", "Pose"))
@@ -420,12 +420,10 @@ class Gui(QtWidgets.QMainWindow):
             self.calculations_status_btn.setText(" ")
 
     # get limits from
-    def get_limits(self):
-        limit_x = self.x_limit_spinbox.value()
-        limit_y = self.y_limit_spinbox.value()
-        limit_z = self.z_limit_spinbox.value()
-
-        return limit_x, limit_y, limit_z
+    def get_icp_values(self):
+        icp_error = self.icp_error_spinbox.value()
+        icp_max_iter = self.icp_max_iter_spinbox.value()
+        return icp_error, icp_max_iter
 
     # given the path to a point cloud, return the numpy array with points
     @staticmethod

@@ -10,13 +10,17 @@ __date__ = "2023/01/09"
 __email__ = "jkoszyk@agh.edu.pl"
 __version__ = "1.0.0"
 
+'''This file contains a class that starts GUI and saves and forwards GUI values that can be later used by 
+another process'''
+
+
 class Receiver(mp.Process):
 
     def __init__(self):
         super().__init__()
 
     def run(self, run_event, calculation_trigger, rotation_option, translation_option, calculations_progress,
-            ros_connection_status, lidar_status, data_path, pose, x_limit, y_limit, z_limit):
+            ros_connection_status, lidar_status, data_path, pose, icp_error, icp_max_iter):
         app = QApplication(sys.argv)
         # initialize GUI
         self.p = Gui()
@@ -34,8 +38,8 @@ class Receiver(mp.Process):
             # store information if running calculations were clicked
             calculation_trigger.value = self.p.calculation_trigger
 
-            # get information on ICP limits options
-            x_limit, y_limit, z_limit = self.p.get_limits()
+            # get information on ICP settings
+            icp_error.value, icp_max_iter.value = self.p.get_icp_values()
 
             # check if state of running calculation changed
             if calculation_trigger.value != previous_calculation_trigger_value:

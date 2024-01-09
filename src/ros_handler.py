@@ -7,6 +7,9 @@ __date__ = "2023/01/09"
 __email__ = "jkoszyk@agh.edu.pl"
 __version__ = "1.0.0"
 
+'''This file contains a class that provides connection to ROS environment. Connection status with ROS and LiDAR 
+are acquired.'''
+
 
 class RosHandler(mp.Process):
     def __init__(self):
