@@ -27,7 +27,9 @@ ROS requirements:
 
 LiDAR:
 
-![ScreenShot](/screenshots/lidar.png)
+
+<img src="/screenshots/lidar.png" width="450" height="300">
+
 
 Robot:
 
