@@ -18,8 +18,11 @@ The goal of the project is to provide a functionality of point cloud alignment o
 ## Requirements
 
 Application requirements:
+
 * Python version (Windows): Python 3.9.1
+
 ROS requirements:
+
 * Virtual Machine: Ubuntu 16.04.7 LTS Xenial
 * ROS version (VM): kinetic
 
