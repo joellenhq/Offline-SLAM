@@ -54,7 +54,7 @@ Static:
 
 ![ScreenShot](/screenshots/static-scan.png)
 
-Measurements on a robot:
+Measurements on a robot (dynamic):
 
 ![ScreenShot](/screenshots/dynamic-scan.png)
 
