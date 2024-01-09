@@ -17,7 +17,9 @@ The goal of the project is to provide a functionality of point cloud alignment o
 
 ## Requirements
 
+Application requirements:
 * Python version (Windows): Python 3.9.1
+ROS requirements:
 * Virtual Machine: Ubuntu 16.04.7 LTS Xenial
 * ROS version (VM): kinetic
 
@@ -25,8 +27,10 @@ The goal of the project is to provide a functionality of point cloud alignment o
 
 LiDAR:
 ![ScreenShot](/screenshots/LiDAR.png)
+
 Robot:
 ![ScreenShot](/screenshots/robot.png)
+
 Measurements:
 ![](/screenshots/robot-driving.gif)
 
@@ -34,7 +38,9 @@ Measurements:
 
 To operate Jaguar robot, the following ROS package was installed and used:
 https://github.com/gitdrrobot/jaguar4x4_2014
+
 Static and Dynamic Measurements were done. 
+
 Static:
 ![ScreenShot](/screenshots/static-scan.png)
 Measurements on a robot:
@@ -49,6 +55,7 @@ GUI was created with the use of PyQt library. It has widgets to link the point c
 
 After calculations are done, pose estimation can be seen at the Localization panel:
 ![ScreenShot](/screenshots/pose.png)
+
 Merged maps:
 ![ScreenShot](/screenshots/map.png)
 
