@@ -5,6 +5,7 @@ SLAM - Simultanous Localization and Mapping
 ## Table of contents
 * [General information](#general-information)
 * [Requirements](#requirements)
+* [Installation](#installation)
 * [System preparation](#requirements)
 * [Measurements](#measurements)
 * [GUI](#gui)
@@ -25,6 +26,19 @@ ROS requirements:
 
 * Virtual Machine: Ubuntu 16.04.7 LTS Xenial
 * ROS version (VM): kinetic
+
+## Installation
+
+
+Go to src folder and install required libraries:
+```yaml
+pip install -r requirements.txt
+```
+Run code:
+```yaml
+run: python main.py
+```
+
 
 ## System preparation
 
